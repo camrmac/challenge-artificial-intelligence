@@ -1,0 +1,23 @@
+# Interface web
+streamlit==1.28.2
+
+# Computação numérica
+numpy==1.24.3
+
+# Machine Learning - Embeddings
+sentence-transformers>=2.2.0
+transformers>=4.21.0
+torch>=1.9.0
+
+# Processamento de PDFs
+PyPDF2==3.0.1
+pdfplumber==0.9.0
+
+# Processamento de vídeo/áudio
+SpeechRecognition==3.10.0
+pydub==0.25.1
+moviepy==1.0.3
+
+# Processamento de imagens
+Pillow==10.1.0
+opencv-python==4.8.1.78 
