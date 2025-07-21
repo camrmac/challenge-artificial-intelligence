@@ -79,9 +79,9 @@ class DifficultyAnalyzer:
             "arquivos": ["file", "arquivo", "read", "write", "open", "close"],
             
             # Tópicos de formatação e estilo (HTML/CSS)
-            "formatacao_texto": ["estilo", "formatação", "css", "html", "fonte", "cor", "tamanho", "negrito", "italico"],
-            "html_basico": ["html", "tag", "elemento", "navegador", "pagina web", "markup"],
-            "css_basico": ["css", "estilo", "cor", "fonte", "layout", "classe", "seletor"],
+            "formatacao_texto": ["estilo", "formatação", "css", "fonte", "cor", "tamanho", "negrito", "italico", "texto"],
+            "html_basico": ["html", "tag", "elemento", "navegador", "pagina web", "markup", "estrutura", "documento"],
+            "css_basico": ["css", "classe", "seletor", "propriedade", "valor", "stylesheet"],
             
             # Tópicos avançados
             "orientacao_objetos": ["class", "object", "objeto", "método", "atributo", "herança"],

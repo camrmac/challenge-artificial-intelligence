@@ -282,34 +282,49 @@ Que tal avançarmos para algo mais desafiador? Sugiro explorar:
             message_parts.append(content['introducao'])
             message_parts.append("")
         
-        # 2. Exemplo prático estruturado (PRINCIPAL)
-        # Obtém dados do tópico diretamente do content generator
-        from .content_generator import ContentGenerator
-        cg = ContentGenerator()
-        topic_data = cg.topic_content.get(topic, {})
-        
-        if 'exemplo_detalhado' in topic_data:
-            message_parts.append("💻 **Exemplo prático:**")
-            example = topic_data['exemplo_detalhado']
-            # Detecta linguagem do código
-            if topic in ['formatacao_texto', 'html_basico', 'css_basico']:
-                message_parts.append(f"```html\n{example}\n```")
-            else:
-                message_parts.append(f"```python\n{example}\n```")
-            message_parts.append("")
-        elif 'exemplo_pratico' in topic_data:
-            message_parts.append("💡 **Exemplo:**")
-            message_parts.append(topic_data['exemplo_pratico'])
-            message_parts.append("")
-        
-        # 3. Só usa contexto dos PDFs se NÃO tiver conteúdo estruturado
-        if not topic_data and search_results:
+        # 2. PRIORIDADE: Usar dados reais indexados primeiro
+        if search_results:
             best_result = search_results[0]
-            if best_result.get('similarity', 0) > 0.3:
-                message_parts.append("📖 **Conteúdo encontrado nos materiais:**")
-                content_snippet = best_result.get('content', '')[:200]
-                if len(content_snippet) > 50:
-                    message_parts.append(f"*{content_snippet}...*")
+            if best_result.get('similarity', 0) > 0.4:  # Relevância alta
+                message_parts.append("📚 **Conteúdo dos materiais indexados:**")
+                content_snippet = best_result.get('content', '')
+                
+                # Se for muito longo, pega primeiras 3 sentenças
+                sentences = content_snippet.split('.')[:3]
+                formatted_content = '. '.join(sentences).strip()
+                if len(formatted_content) > 50:
+                    message_parts.append(formatted_content + ".")
+                    message_parts.append("")
+                
+                # Adiciona mais resultados se relevantes
+                if len(search_results) > 1:
+                    for result in search_results[1:3]:  # Máximo 2 adicionais
+                        if result.get('similarity', 0) > 0.3:
+                            message_parts.append("📖 **Material adicional:**")
+                            extra_content = result.get('content', '')[:150]
+                            message_parts.append(f"*{extra_content}...*")
+                            message_parts.append("")
+                            break
+        
+        # 3. FALLBACK: Usa exemplos pré-programados só se dados indexados não forem suficientes
+        if not search_results or (search_results and search_results[0].get('similarity', 0) < 0.3):
+            # Obtém dados do tópico como fallback
+            from .content_generator import ContentGenerator
+            cg = ContentGenerator()
+            topic_data = cg.topic_content.get(topic, {})
+            
+            if 'exemplo_detalhado' in topic_data:
+                message_parts.append("💻 **Exemplo prático (conteúdo base):**")
+                example = topic_data['exemplo_detalhado']
+                # Detecta linguagem do código
+                if topic in ['formatacao_texto', 'html_basico', 'css_basico']:
+                    message_parts.append(f"```html\n{example}\n```")
+                else:
+                    message_parts.append(f"```python\n{example}\n```")
+                message_parts.append("")
+            elif 'exemplo_pratico' in topic_data:
+                message_parts.append("💡 **Exemplo (conteúdo base):**")
+                message_parts.append(topic_data['exemplo_pratico'])
                 message_parts.append("")
         
         # 4. Adiciona outras seções do conteúdo estruturado

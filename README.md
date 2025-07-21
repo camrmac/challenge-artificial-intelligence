@@ -60,3 +60,13 @@ Baseado nas interações analise as dificuldades e gere conteúdos dinâmicos cu
     - Quais requisitos obrigatórios que não foram entregues
 4. Informe ao recrutador quando concluir o desafio junto com o link do repositório
 5. Após revisão do projeto junto com a equipe de desenvolvimento deixe seu repositório privado
+
+## Arquitetura RAG Implementada
+
+Este projeto implementa um sistema RAG (Retrieval-Augmented Generation) 
+educacional com as seguintes características:
+
+- **Multi-modal Retrieval**: Indexação de texto, PDF, vídeo e imagem
+- **Semantic Search**: Busca vetorial usando Sentence Transformers  
+- **Adaptive Generation**: Geração personalizada baseada no perfil do usuário
+- **Educational Context**: RAG especializado para aprendizagem adaptativa
